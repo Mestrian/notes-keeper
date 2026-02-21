@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme { 
+  --color-bg: #1e1f24;
+  --color-bgSecundario: #252733;
+  --color-bgHover: #2d303e;
+
+  --color-textPrincipal: #e6e6e6;
+  --color-textSecundario: #a9b1d6;
+  --color-textDesativado: #a9b1d6;
+
+  --color-azul: #7aa2f7;
+  --color-roxo: #bb9af7;
+  --color-verde: #9ece6a;
+  --color-laranja: #e0af68;
+  --color-vermelho: #f7768e;
+
+}
+
+.material-symbols-outlined {
+  font-size: 14px;
+}

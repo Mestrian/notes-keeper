@@ -1,8 +1,10 @@
-function Editor({notaAtual, notas, setNotas}) {
+
+
+function Editor({notaAtual, notas, setNotas, modoFoco}) {
 
   const nota = notas.find(n => n.id === notaAtual)
 
-  if(!nota) return; 
+  if(!nota) return null; 
 
   function atualizarNota(campo, valor){
     setNotas(
@@ -13,13 +15,13 @@ function Editor({notaAtual, notas, setNotas}) {
   }
 
   return (
-    <div className='
-      col-span-10
+    <div className={`
+      flex-1
       flex 
       justify-center
       h-screen
       bg-bg
-     '>
+      `}>
         <div className='
         w-full
         max-w-3xl

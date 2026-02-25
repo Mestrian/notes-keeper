@@ -1,6 +1,12 @@
+import CodeMirror from "@uiw/react-codemirror"
+import { markdown } from "@codemirror/lang-markdown"
+import {meuTema} from "../utils/utils";
+import { EditorView } from "@codemirror/view"
+import { useRef, useEffect} from "react";
 
 
-function Editor({notaAtual, notas, setNotas, modoFoco}) {
+
+function Editor({notaAtual, notas, setNotas}) {
 
   const nota = notas.find(n => n.id === notaAtual)
 
@@ -13,6 +19,18 @@ function Editor({notaAtual, notas, setNotas, modoFoco}) {
       )
     )
   }
+  const editorRef = useRef(null);
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.focus()
+
+      const length = editorRef.current.state.doc.length
+      editorRef.current.dispatch({
+        selection: { anchor: length }
+      })
+    }
+  }, [notaAtual])
+
 
   return (
     <div className={`
@@ -46,16 +64,21 @@ function Editor({notaAtual, notas, setNotas, modoFoco}) {
           }}
         />
 
-        <textarea //conteudo
-          className='grow resize-none 
-          bg-bg 
-          text-textPrincipal text-lg
-          focus:outline-none
-          focus:ring-0 '
-
-          value= {nota.content}
-          onChange={(e)=> {
-            atualizarNota('content', e.target.value)
+        <CodeMirror //conteudo
+          basicSetup={{ 
+            lineNumbers: false,
+            foldGutter: false,
+            highlightActiveLine: false
+          }}
+          onCreateEditor={(view) => {
+            editorRef.current = view
+          }}
+          autoFocus
+          extensions={[markdown(), meuTema, EditorView.lineWrapping]}
+          value= {nota.content || ""}
+          theme={meuTema}
+          onChange={(value)=> {
+            atualizarNota('content', value)
           }}
           
         />      

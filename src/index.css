@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 40px; 
+  display: inline-block;
+  line-height: 1;
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 48;
+}
+
+
 @theme { 
   --color-bg: #1e1f24;
   --color-bgSecundario: #252733;

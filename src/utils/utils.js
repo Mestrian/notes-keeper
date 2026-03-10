@@ -5,6 +5,7 @@ export function gerarNota() {
     id: crypto.randomUUID(),
     title: "",
     content: "",
+    tags: [],
     created: Date.now()
   } 
 }

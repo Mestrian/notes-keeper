@@ -3,8 +3,7 @@ import { markdown } from "@codemirror/lang-markdown"
 import {meuTema} from "../../utils/utils";
 import { EditorView } from "@codemirror/view"
 import { useRef, useEffect, useState} from "react";
-import { createTag } from "../../utils/tags";
-import { salvar } from "../../storage";
+import TagsWrapper from "./tags";
 
 
 
@@ -75,11 +74,8 @@ function Editor({notaAtual, notas, setNotas, tagsGlobais, setTags}) {
           }}
         />
 
-        <TagsEditor tagsNota = {tagsNotaAtual} tagsGlobais = {tagsGlobais}
-        setTagsNota = {editarTagsNotaAtual} setTagsGlobais = {setTags} 
-        atualizarNota = {atualizarNota}/>
-
-        <ExibirTags tagsNota={tagsNotaAtual}/>
+        <TagsWrapper tagsNotaAtual={tagsNotaAtual} tagsGlobais={tagsGlobais} 
+        editarTagsNotaAtual = {editarTagsNotaAtual} setTags={setTags} atualizarNota = {atualizarNota} />
 
         <CodeMirror //conteudo
           basicSetup={{ 
@@ -105,72 +101,5 @@ function Editor({notaAtual, notas, setNotas, tagsGlobais, setTags}) {
   )
 
 }
-
-function TagsEditor({tagsNota, tagsGlobais, setTagsNota, setTagsGlobais, atualizarNota }){
-
-  const [tag, setTag] = useState('');
-
-  return(
-    <input type="text" 
-    className="bg-red-950"
-    placeholder="Add Tags" 
-    value={tag}
-    onChange={(e)=> {
-      setTag(e.target.value);
-    }}
-    onKeyDown={(e) => {
-      if(e.key === "Enter") {
-        const novaTag = createTag(tag)
-        addTagToNote(novaTag, tagsNota, setTagsNota, atualizarNota);
-        addTagGlobal(novaTag, tagsGlobais, setTagsGlobais);
-        setTag('');
-      }
-    }}
-    />
-  )
-}
-
-function ExibirTags({tagsNota}) {
-
-  return(
-    <>
-    {
-      tagsNota.map(tag => (
-        <div key={tag.id}>
-          {tag.name}
-        </div>
-      ))
-    }
-    </>
-  )
-
-}
-
-
-function addTagToNote(tag, tagsNota, setTagsNota, atualizarNota) {
- const existe = tagsNota.some(t => t.name === tag.name)
-
- if(existe === true) {
-  return; 
- }else {
-  const novasTags = [...tagsNota, tag]
-  setTagsNota(novasTags)
-  atualizarNota("tags", novasTags)
- }
-}
-
-
-function addTagGlobal(tag, tagsGlobais, setTagsGlobais) {
-  const existe = tagsGlobais.some(t => t.name === tag.name);
-
-  if(existe) {
-    return;
-  } else {
-    const novasTagsGlobais = [...tagsGlobais, tag]
-    setTagsGlobais(novasTagsGlobais)
-  }
-
-}
-
 
 export default Editor;

@@ -3,7 +3,7 @@ export function createTag(nome){
   return{
     name: formatedName,
     color: "",
+    notesPresent: 1,
     id: crypto.randomUUID(),
     }
-  
 }

@@ -15,15 +15,16 @@ function App() {
     ]
   }
   );
+
   const notaInicial = notas.length > 0 ? notas[0].id : null;
+
   const [notaAtual, trocarNota] = useState(notaInicial);
+
   const [modoFoco, setModo] = useState(false);
+
   const [tagsGlobais, setTags] = useState(()=> {
     const tagsSalvas = carregar("tags");
-
-    return tagsSalvas.length ? tagsSalvas : [
-      {name: example, color: ""}
-    ]
+    return tagsSalvas.length ? tagsSalvas : []
   })
   
   useEffect(()=>{
@@ -32,9 +33,16 @@ function App() {
 
   return (
     <main className='flex content-box bg-bg'>
-      <SidebarBotoes setNotas = {setNotas} setModo = {setModo} trocarNota={trocarNota} modo={modoFoco}/>
-      <SidebarArquivos notas={notas} trocarNota={trocarNota} setNotas={setNotas} notaAtual={notaAtual} modoFoco={modoFoco}/>
-      <Editor notaAtual={notaAtual} notas={notas} setNotas={setNotas} modoFoco={modoFoco} />
+
+      <SidebarBotoes setNotas = {setNotas} setModo = {setModo} 
+      trocarNota={trocarNota} modo={modoFoco}/>
+
+      <SidebarArquivos notas={notas} trocarNota={trocarNota} setNotas={setNotas} 
+      notaAtual={notaAtual} modoFoco={modoFoco}/>
+      
+      <Editor notaAtual={notaAtual} notas={notas} setNotas={setNotas} 
+      modoFoco={modoFoco} tagsGlobais = {tagsGlobais} setTags = {setTags} />
+    
     </main>
   )
 

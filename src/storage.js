@@ -3,7 +3,7 @@ export function salvar(id, conteudo){
 }
 
 export function carregar(id) {
-  const carregar = localStorage.getItem(id);
+  const salvo = localStorage.getItem(id);
 
-  return carregar ? JSON.parse(carregar) : []; 
+  return salvo ? JSON.parse(salvo) : []; 
 }

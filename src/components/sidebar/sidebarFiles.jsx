@@ -39,7 +39,8 @@ function SidebarArquivos({trocarNota, notas, setNotas, notaAtual, modoFoco}) {
       <PesquisarNotas setBusca={setBusca}/>
       {
         notasExibidas.map((nota) => (
-          <Miniatura nota={nota} trocarNota={trocarNota} key={nota.id} deletar={() => deletarNota(nota.id)} notaAtual={notaAtual} />
+          <Miniatura nota={nota} trocarNota={trocarNota} key={nota.id} 
+          eletar={() => deletarNota(nota.id)} notaAtual={notaAtual} />
         ))
       }
     </div>

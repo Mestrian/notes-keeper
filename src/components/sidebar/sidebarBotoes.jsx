@@ -1,7 +1,4 @@
-import {gerarNota} from '../../utils/utils.js'
-
-
-function SidebarBotoes({setModo, trocarNota, setNotas, modo}) {
+function SidebarBotoes({setModo, criarNota, modo}) {
   return (
     <div className="
       border-r-azul
@@ -14,7 +11,7 @@ function SidebarBotoes({setModo, trocarNota, setNotas, modo}) {
       items-center
     ">
       <BotaoModoFoco setModo = {setModo} modo={modo}/>
-      <BtnNovaNota trocarNota={trocarNota} setNotas={setNotas} />
+      <BtnNovaNota criarNota = {criarNota} />
     </div>
   )
 }
@@ -37,7 +34,7 @@ function BotaoModoFoco({setModo, modo}) {
 
 }
 
-function BtnNovaNota({setNotas, trocarNota}) { 
+function BtnNovaNota({criarNota}) { 
   return(
     <button 
       className="
@@ -50,10 +47,7 @@ function BtnNovaNota({setNotas, trocarNota}) {
 
       style={{fontSize: "34px"}}
       onClick={() => {
-        const novaNota = gerarNota();
-
-        setNotas(prevNotas => [...prevNotas, novaNota]);
-        trocarNota(novaNota.id);
+        criarNota()
       }}
     >
       add_notes

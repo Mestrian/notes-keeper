@@ -1,15 +1,5 @@
 import { EditorView, lineNumbers } from "@codemirror/view"
 
-export function gerarNota() {
-  return {
-    id: crypto.randomUUID(),
-    title: "",
-    content: "",
-    tags: [],
-    created: Date.now()
-  } 
-}
-
 export const meuTema = EditorView.theme({
   "&": {
     backgroundColor: "#1e1f24",

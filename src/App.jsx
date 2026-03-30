@@ -6,6 +6,7 @@ import SidebarBotoes from './components/sidebar/sidebarBotoes.jsx'
 import SidebarArquivos from './components/sidebar/sidebarFiles.jsx'
 import { filtrarNotas, gerarNota } from './utils/noteUtils.js'
 import { removerTagPorId, adicionarTag } from './utils/tagUtils.js'
+import { gerarPasta } from './utils/folderUtils.js'
 
 
 function App() {
@@ -17,28 +18,34 @@ function App() {
     ]
   }
   );
+  const [pastas, setPastas] = useState(()=>{
+    const pastasSalvas = carregar("pastas");
 
-  const notaInicial = notas.length > 0 ? notas[0].id : null;
+    return pastasSalvas.length ? pastasSalvas : [];
+  })
 
   const [notaAtual, trocarNota] = useState(notaInicial);
-
   const [modoFoco, setModo] = useState(false);
 
   const [tagsGlobais, setTags] = useState(()=> {
     const tagsSalvas = carregar("tags");
     return tagsSalvas.length ? tagsSalvas : []
   })
+  const notaInicial = notas.length > 0 ? notas[0].id : null;
   
   useEffect(()=>{
     salvar("notas",notas)
   }, [notas])
+
+  useEffect(()=>{
+    salvar("pastas", pastas)
+  }, [pastas])
 
   function criarNota(){
     const novaNota = gerarNota()
 
     setNotas(prevNotas => [...prevNotas, novaNota])
     trocarNota(novaNota.id);
-
   }
 
   function deletarNota(id){
@@ -48,7 +55,16 @@ function App() {
     if(id === notaAtual){
       trocarNota(novasNotas.length > 0 ? novasNotas[0].id : null)
     }
+  }
 
+  function criarPasta(){
+    const novaPasta = gerarPasta();
+    setPastas(prevP => [...prevP, novaPasta])
+  }
+
+  function deletarPasta(id){
+    const novasPastas = filtrarPastas(id, pastas);
+    setPastas(novasPastas);
   }
 
   function criarTag(novaTag) {
@@ -76,7 +92,8 @@ function App() {
        modo={modoFoco}/>
 
       <SidebarArquivos notas={notas} trocarNota={trocarNota}  
-      notaAtual={notaAtual} modoFoco={modoFoco} deletarNota={deletarNota}/>
+      notaAtual={notaAtual} modoFoco={modoFoco} 
+      deletarNota={deletarNota} criarNota = {criarNota}/>
       
       <Editor notaAtual={notaAtual} notas={notas} setNotas={setNotas} 
       modoFoco={modoFoco} tagsGlobais = {tagsGlobais} 

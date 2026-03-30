@@ -1,36 +1,58 @@
-  import { useState } from 'react'
+  import { useEffect, useState } from 'react'
   import { pesquisarNotas } from '../../utils/sidebarUtils';
+  import ContextMenu from './siderBarMenu';
 
-  function SidebarArquivos({trocarNota, notas, deletarNota, notaAtual, modoFoco}) {
+  function SidebarArquivos({trocarNota, notas, deletarNota, notaAtual, modoFoco, criarNota}) {
 
     const [busca, setBusca] = useState("");
+    const [menu, setmenu] = useState({visible: false, x: 0, y: 0})
+
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+      setmenu({visible: true, x: e.clientX, y: e.clientY})
+    }
+
+    const closeMenu = () => {
+      setmenu(prev => ({...prev, visible: false}))
+    }
+
+    useEffect(()=>{
+      document.addEventListener("click", closeMenu);
+      return () => document.removeEventListener("click", closeMenu);
+    }, [])
+
+
 
     const notasExibidas = busca ? pesquisarNotas(notas, busca) : notas;
 
     return (
-      <div 
-        className={`
-          min-h-screen 
-          ${modoFoco? "w-0" : "w-50"}
-          p-2
-          bg-bgSecundario
-          text-textPrincipal
-          flex flex-col
-          ${modoFoco ? "opacity-0 pointer-events-none" : ""}
-          transition-all
-          duration-300
-          ease-in-out
-        `
-        }
-      >
-        <PesquisarNotas setBusca={setBusca}/>
-        {
-          notasExibidas.map((nota) => (
-            <Miniatura nota={nota} trocarNota={trocarNota} key={nota.id} 
-            deletar={() => deletarNota(nota.id)} notaAtual={notaAtual} />
-          ))
-        }
-      </div>
+      <>
+        <ContextMenu menu = {menu} criarNota = {criarNota}/>
+        <div 
+          onContextMenu={handleContextMenu}
+          className={`
+            min-h-screen  
+            ${modoFoco? "w-0" : "w-50"}
+            p-2
+            bg-bgSecundario
+            text-textPrincipal
+            flex flex-col
+            ${modoFoco ? "opacity-0 pointer-events-none" : ""}
+            transition-all
+            duration-300
+            ease-in-out
+          `
+          }
+        >
+          <PesquisarNotas setBusca={setBusca}/>
+          {
+            notasExibidas.map((nota) => (
+              <Miniatura nota={nota} trocarNota={trocarNota} key={nota.id} 
+              deletar={() => deletarNota(nota.id)} notaAtual={notaAtual} />
+            ))
+          }
+        </div>
+      </>
     )
   }
 

@@ -4,11 +4,12 @@ export function gerarNota() {
     title: "",
     content: "",
     tags: [],
+    folder: null,
     created: Date.now()
   } 
 }
 
 export function filtrarNotas(notaID, notas) {
-  const novasNotas = notas.filter(n => n.id !== notaID)
-  return novasNotas
+  const notasFiltradas = notas.filter(n => n.id !== notaID)
+  return notasFiltradas
 }
